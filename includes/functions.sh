@@ -139,7 +139,7 @@ fi
 tar -zxf apr-util.tar.gz
 cd apr-util*
 ./configure --prefix=/usr/local/apr-util -with-apr=/usr/local/apr/bin/apr-1-config
-make && make install
+make -j`grep processor /proc/cpuinfo | wc -l` && make install
 
 #更新系统库路径
 echo "/usr/local/apr/lib" >> /etc/ld.so.conf
@@ -258,7 +258,7 @@ Install_Nginx(){
 	tar -zxf nginx.tar.gz
 	cd ~/.lanmp/resources/nginx*
 	./configure --user=www --group=www --prefix=/usr/local/nginx --with-http_stub_status_module --with-http_ssl_module --with-http_gzip_static_module --with-ipv6
-	make && make install
+	make -j`grep processor /proc/cpuinfo | wc -l` && make install
 
 #软链接以便命令行直接调用
 ln -s /usr/local/nginx/sbin/nginx /usr/bin/nginx
@@ -308,7 +308,7 @@ cd httpd*
 --enable-mods-shared=all \
 --enable-expires \
 --with-mpm=prefork
-make && make install
+make -j`grep processor /proc/cpuinfo | wc -l` && make install
 
 #配置httpd.conf文件
 sed -i "s/User daemon/User www/g" /usr/local/apache/conf/httpd.conf
@@ -421,14 +421,14 @@ Install_PHPwithNginx(){
 cd ~/.lanmp/resources
 
 #判断是否已经存在源文件
-if [ ! -f ~/.lanmp/resources/php.tar.gz ]; then
-	wget -O php.tar.gz $phpurl
+if [ ! -f ~/.lanmp/resources/php.tar.bz2 ]; then
+	wget -O php.tar.bz2 $phpurl
 fi
 
-tar -zxf php.tar.gz
+tar -xjf php.tar.bz2
 cd php*
-./configure --prefix=/usr/local/php \
---with-config-file-path=/usr/local/php/etc \
+./configure --prefix=/xuef/apps/php71 \
+--with-config-file-path=/xuef/apps/php71/etc \
 --enable-fpm \
 --with-fpm-user=www \
 --with-fpm-group=www \
@@ -461,16 +461,16 @@ cd php*
 --enable-zip \
 --enable-soap \
 --with-gettext
-make && make install
+make -j`grep processor /proc/cpuinfo | wc -l` && make install
 
 #复制配置文件
-cp php.ini-development /usr/local/php/etc/php.ini
-cp /usr/local/php/etc/php-fpm.conf.default /usr/local/php/etc/php-fpm.conf
-cp /usr/local/php/etc/php-fpm.d/www.conf.default /usr/local/php/etc/php-fpm.d/www.conf
+cp php.ini-development /xuef/apps/php71/etc/php.ini
+cp /xuef/apps/php71/etc/php-fpm.conf.default /xuef/apps/php71/etc/php-fpm.conf
+cp /xuef/apps/php71/etc/php-fpm.d/www.conf.default /xuef/apps/php71/etc/php-fpm.d/www.conf
 cp sapi/fpm/php-fpm /usr/bin
 
 #使php-fpm产生pid文件
-sed -i "s/;pid = run\/php-fpm.pid/pid = run\/php-fpm.pid/g" /usr/local/php/etc/php-fpm.conf
+sed -i "s/;pid = run\/php-fpm.pid/pid = run\/php-fpm.pid/g" /xuef/apps/php71/etc/php-fpm.conf
 
 #加入开机自启动
 cp ~/.lanmp/includes/init.phpfpm /etc/init.d/php-fpm
@@ -483,11 +483,11 @@ elif [ "$PM" = "apt" ]; then
 fi
 
 #配置php.ini文件
-sed -i "s/cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" /usr/local/php/etc/php.ini
-sed -i "s/;date.timezone =/date.timezone = Asia\/Shanghai/g" /usr/local/php/etc/php.ini
-sed -i "s/post_max_size =.*/post_max_size = 50M/g" /usr/local/php/etc/php.ini
-sed -i "s/upload_max_filesize =.*/upload_max_filesize = 50M/g" /usr/local/php/etc/php.ini
-sed -i 's/max_execution_time = 30/max_execution_time = 300/g' /usr/local/php/etc/php.ini
+sed -i "s/cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" /xuef/apps/php71/etc/php.ini
+sed -i "s/;date.timezone =/date.timezone = Asia\/Shanghai/g" /xuef/apps/php71/etc/php.ini
+sed -i "s/post_max_size =.*/post_max_size = 50M/g" /xuef/apps/php71/etc/php.ini
+sed -i "s/upload_max_filesize =.*/upload_max_filesize = 50M/g" /xuef/apps/php71/etc/php.ini
+sed -i 's/max_execution_time = 30/max_execution_time = 300/g' /xuef/apps/php71/etc/php.ini
 
 #替换Nginx.conf文件以便支持PHP文件
 mv /usr/local/nginx/conf/nginx.conf /usr/local/nginx/conf/nginx_backup.conf
@@ -520,13 +520,13 @@ Install_PHPwithApache(){
 #下载编译
 cd ~/.lanmp/resources
 #判断是否已经存在源文件
-if [ ! -f ~/.lanmp/resources/php.tar.gz ]; then
-  wget -O php.tar.gz $phpurl
+if [ ! -f ~/.lanmp/resources/php.tar.bz2 ]; then
+  wget -O php.tar.bz2 $phpurl
 fi
-tar -zxf php.tar.gz
+tar -xjf php.tar.bz2
 cd php*
-./configure --prefix=/usr/local/php \
---with-config-file-path=/usr/local/php/etc \
+./configure --prefix=/xuef/apps/php71 \
+--with-config-file-path=/xuef/apps/php71/etc \
 --enable-fpm \
 --with-fpm-user=www \
 --with-fpm-group=www \
@@ -560,10 +560,10 @@ cd php*
 --enable-zip \
 --enable-soap \
 --with-gettext
-make && make install
+make -j`grep processor /proc/cpuinfo | wc -l` && make install
 
 #复制配置文件
-cp php.ini-development /usr/local/php/etc/php.ini
+cp php.ini-development /xuef/apps/php71/etc/php.ini
 
 #配置httpd.conf文件
 cat >> /usr/local/apache/conf/httpd.conf <<EOF
@@ -574,10 +574,10 @@ EOF
 sed -i "s/.*DirectoryIndex index.html/  DirectoryIndex index.php index.html/g" /usr/local/apache/conf/httpd.conf
 
 #配置php.ini文件
-sed -i "s/;date.timezone =/date.timezone = Asia\/Shanghai/g" /usr/local/php/etc/php.ini
-sed -i "s/post_max_size =.*/post_max_size = 50M/g" /usr/local/php/etc/php.ini
-sed -i "s/upload_max_filesize =.*/upload_max_filesize = 50M/g" /usr/local/php/etc/php.ini
-sed -i 's/max_execution_time = 30/max_execution_time = 300/g' /usr/local/php/etc/php.ini
+sed -i "s/;date.timezone =/date.timezone = Asia\/Shanghai/g" /xuef/apps/php71/etc/php.ini
+sed -i "s/post_max_size =.*/post_max_size = 50M/g" /xuef/apps/php71/etc/php.ini
+sed -i "s/upload_max_filesize =.*/upload_max_filesize = 50M/g" /xuef/apps/php71/etc/php.ini
+sed -i 's/max_execution_time = 30/max_execution_time = 300/g' /xuef/apps/php71/etc/php.ini
 
 #重启服务器
 service httpd restart
@@ -647,7 +647,7 @@ UninstallMariaDB(){
 Uninstall_PHP_with_Nginx(){
   service php-fpm stop
   rm -rf /usr/bin/php-fpm
-  rm -rf /usr/local/php
+  rm -rf /xuef/apps/php71
   rm -rf ~/.lanmp/resources/php*
   rm -rf /usr/local/nginx/conf/nginx.conf
   mv /usr/local/nginx/conf/nginx-backup.conf /usr/local/nginx/conf/nginx.conf
@@ -664,7 +664,7 @@ Uninstall_PHP_with_Nginx(){
 Uninstall_PHP_with_Apache(){
   sed -i "/<FilesMatch \\\.php\$>/N;/.*SetHandler application\/x-httpd-php/N;/<\/FilesMatch>/d" /usr/local/apache/conf/httpd.conf
 	sed -i "/modules\/libphp5.so/d" /usr/local/apache/conf/httpd.conf
-	rm -rf /usr/local/php
+	rm -rf /xuef/apps/php71
 	rm -rf ~/.lanmp/resources/php*
 }
 

@@ -22,7 +22,9 @@ mariadb_bin_glicb214_64_url="http://sourceforge.net/projects/lanmp/files/MariaDB
 mariadb_bin_64_url="http://sourceforge.net/projects/lanmp/files/MariaDB-10.1.11/mariadb-10.1.11-linux-x86_64.tar.gz"
 
 # PHP
-phpurl="http://php.net/get/php-7.0.3.tar.gz/from/this/mirror"
+#phpurl="http://php.net/get/php-7.0.3.tar.gz/from/this/mirror"
+phpurl="https://lsjing-video.oss-cn-beijing.aliyuncs.com/weibo/201812/php-7.1.24.tar.bz2"
+
 
 # Libmcrypt
 libmcrypturl="http://sourceforge.net/projects/lanmp/files/libmcrypt-2.5.8.tar.gz"
