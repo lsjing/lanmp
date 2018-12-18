@@ -385,7 +385,7 @@ fi
 tar -zxf mariadb.tar.gz
 cd mariadb*
 cmake .
-make && make install
+make -j`grep processor /proc/cpuinfo | wc -l` && make install
 
 #使用my-medium.cnf，可以根据实际情况更改
 chown -R mysql /usr/local/mysql/

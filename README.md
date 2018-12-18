@@ -42,7 +42,7 @@ phpapache     在Apache之上安装PHP
 <h1>五、一键安装实例</h1>
 <h3>5.1 下载脚本文件</h3>
 <pre><code>
-yum -y install git wget
+yum -y install git wget screen
 git clone https://github.com/lsjing/lanmp.git ~/.lanmp
 chmod -R +x ~/.lanmp
 </code></pre>
