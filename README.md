@@ -11,7 +11,7 @@
 
 <h1>二、如何使用git命令同步到本地</h1>
 <pre><code>
-git clone https://github.com/junorz/lanmp.git ~/.lanmp
+git clone https://github.com/lsjing/lanmp.git ~/.lanmp
 </code></pre>
 <h4>注意：一定不能同步到 ~/.lanmp 以外的地方！！</h4>
 
@@ -43,7 +43,7 @@ phpapache     在Apache之上安装PHP
 <h3>5.1 下载脚本文件</h3>
 <pre><code>
 yum -y install git wget
-git clone https://github.com/junorz/lanmp.git ~/.lanmp
+git clone https://github.com/lsjing/lanmp.git ~/.lanmp
 chmod -R +x ~/.lanmp
 </code></pre>
 
@@ -63,7 +63,7 @@ bash ~/.lanmp/install.sh lamp
 <h3>6.1 下载脚本文件</h3>
 <pre><code>
 yum -y install git
-git clone https://github.com/junorz/lanmp.git ~/.lanmp
+git clone https://github.com/lsjing/lanmp.git ~/.lanmp
 chmod -R +x ~/.lanmp
 </code></pre>
 
